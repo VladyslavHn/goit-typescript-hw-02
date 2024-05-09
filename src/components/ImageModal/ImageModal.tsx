@@ -1,9 +1,20 @@
 import Modal from 'react-modal';
 import css from './ImageModal.module.css';
+import { Image } from '../../types';
+import { FC } from 'react';
 
-Modal.setAppElement(document.getElementById('root'));
+Modal.setAppElement(document.getElementById('root') as HTMLElement);
 
-const ImageModal = ({ isOpen = false, image, onClose }) => {
+type Prop = {
+  image: {
+    src: string;
+    description: string;
+  };
+  isOpen: boolean;
+  onClose : (isOpen: boolean) => void;
+}
+
+const ImageModal: FC<Prop> = ({ isOpen = false, image, onClose }) => {
     
   const customStyles = {
     content: {

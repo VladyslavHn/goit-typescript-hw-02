@@ -9,17 +9,28 @@ import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import toast, { Toaster } from 'react-hot-toast';
 import ImageModal from './components/ImageModal/ImageModal';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
+import { Image } from './types';
+
+export type ImgSrc = {
+  src: string;
+  description: string;
+}
+
+export type Api = {
+  results: Image[];
+  total_pages: number;
+}
 
 function App() {
-  const [images, setImages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [query, setQuery] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [page, setPage] = useState(1);
-  const [selectedImg, setSelectedImg] = useState({ src: '', description: '' });
+  const [images, setImages] = useState<Image[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [selectedImg, setSelectedImg] = useState<ImgSrc>({ src: '', description: '' });
 
-  const [loadMoreBtn, setLoadMoreBtn] = useState(false)
+  const [loadMoreBtn, setLoadMoreBtn] = useState<boolean>(false)
   
 
   useEffect(() => {
@@ -29,7 +40,7 @@ function App() {
       try {
 
         setIsLoading(true);
-        const { results, total_pages } = await apiSearch(query, page);
+        const { results, total_pages } = await apiSearch(query, page) as Api;
         if (results.length === 0) {
           return toast.error("This didn't work.");
         }
@@ -46,7 +57,7 @@ function App() {
     fetchData();
   }, [query, page]);
 
-  const searchQuery = (search) => {
+  const searchQuery = (search: string) => {
     setIsLoading(true);
     setQuery(search);
     setLoadMoreBtn(false)
@@ -55,7 +66,7 @@ function App() {
     setError(false);
   };
 
-  const openModal = (state, images) => {
+  const openModal = (state: boolean, images: ImgSrc) => {
     setIsModalOpen(true);
     if (state) setSelectedImg(images);
   };

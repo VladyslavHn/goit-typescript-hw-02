@@ -1,6 +1,20 @@
+import { FC } from 'react';
+import { Image } from '../../types';
 import css from './ImageCard.module.css';
 
-const ImageCard = ({ image, onSelect }) => {
+type Prop = {
+  image: {
+    src: string;
+    alt_description: string;
+    urls:{
+      small: string;
+      regular: string;
+    }
+  };
+  onSelect: (isOpen: boolean, image: { src: string; description: string }) => void;
+};
+
+const ImageCard: FC<Prop> = ({ image, onSelect }) => {
   return (
     <div className={css.imgBox}>
       <img
@@ -19,3 +33,4 @@ const ImageCard = ({ image, onSelect }) => {
 };
 
 export default ImageCard;
+
